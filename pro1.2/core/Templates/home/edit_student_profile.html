@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile - {{ user.first_name }} | Reccol</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <style>
+    body { background-color: #f4f6f8; font-family: 'Poppins', sans-serif; }
+    .navbar { background-color: #1a73e8; }
+    .navbar-brand, .nav-link, .nav-link:hover { color: #fff !important; }
+    .card { border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-top: 2rem; padding: 2rem; }
+    .btn-custom { background-color: #1a73e8; color: white; border-radius: 8px; }
+    .btn-custom:hover { background-color: #155ab6; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="{% url 'student_dashboard' %}">Reccol</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'student_dashboard' %}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'jobs_list' %}">Jobs</a></li>
+          <li class="nav-item">
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-warning btn-sm ms-2">Logout</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Edit Profile Form -->
+  <div class="container">
+    <div class="card mx-auto" style="max-width: 600px;">
+      <h3 class="mb-4">Edit Profile</h3>
+
+      <form action="{% url 'edit_student_profile' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+          <label for="full_name" class="form-label">Full Name</label>
+          <input type="text" name="full_name" class="form-control" id="full_name" value="{{ user.first_name }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="roll_number" class="form-label">Roll Number</label>
+          <input type="text" name="roll_number" class="form-control" id="roll_number" value="{{ user.roll_number }}">
+        </div>
+
+        <div class="mb-3">
+          <label for="department" class="form-label">Department</label>
+          <input type="text" name="department" class="form-control" id="department" value="{{ user.department }}">
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" id="email" value="{{ user.email }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="phone_number" class="form-label">Phone Number</label>
+          <input type="text" name="phone_number" class="form-control" id="phone_number" value="{{ user.phone_number }}">
+        </div>
+
+        <div class="mb-3">
+          <label for="profile_pic" class="form-label">Profile Picture</label>
+          <input type="file" name="profile_pic" class="form-control" id="profile_pic">
+          {% if user.profile_pic %}
+            <img src="{{ user.profile_pic.url }}" alt="Profile Picture" class="img-thumbnail mt-2" style="max-width: 120px;">
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-custom w-100">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

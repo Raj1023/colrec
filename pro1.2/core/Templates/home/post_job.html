@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job | CareerConnect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #7209b7;
+      --accent: #4cc9f0;
+      --success: #4ade80;
+      --error: #f87171;
+      --warning: #fbbf24;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --gray: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--dark);
+    }
+
+    .container {
+      max-width: 750px;
+      width: 100%;
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      background: var(--gradient);
+      color: white;
+      padding: 35px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    }
+
+    .header h2 {
+      font-weight: 700;
+      font-size: 32px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .header p {
+      font-weight: 300;
+      opacity: 0.9;
+      position: relative;
+    }
+
+    .form-container {
+      padding: 40px;
+      position: relative;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 8px;
+      display: block;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .required::after {
+      content: " *";
+      color: var(--error);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 16px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http://www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%2364748b'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-size: 10px 6px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .icon-input {
+      position: relative;
+    }
+
+    .icon-input i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: all 0.3s ease;
+    }
+
+    .icon-input input {
+      padding-left: 50px;
+    }
+
+    .icon-input:focus-within i {
+      color: var(--primary);
+    }
+
+    button {
+      width: 100%;
+      padding: 18px;
+      background: var(--gradient);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.6s ease;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    .message {
+      background: rgba(74, 222, 128, 0.1);
+      color: var(--success);
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--success);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .error {
+      background: rgba(248, 113, 113, 0.1);
+      color: var(--error);
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--error);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .info {
+      background: rgba(67, 97, 238, 0.1);
+      color: var(--primary);
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .form-footer {
+      margin-top: 30px;
+      text-align: center;
+      color: var(--gray);
+      font-size: 14px;
+      padding: 15px;
+      border-top: 1px solid var(--border);
+    }
+
+    .floating-label {
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      background: white;
+      padding: 0 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--primary);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .form-group:focus-within .floating-label {
+      opacity: 1;
+    }
+
+    .character-count {
+      text-align: right;
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 5px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .form-container {
+        padding: 30px 20px;
+      }
+
+      .header {
+        padding: 25px 20px;
+      }
+
+      .header h2 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2><i class="fa fa-briefcase"></i> Post a New Job</h2>
+      <p>Find the perfect candidate for your open position</p>
+    </div>
+
+    <div class="form-container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="{% if message.tags %}{{ message.tags }}{% endif %}">
+            <i class="fa fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %}"></i>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label class="required">Job Title</label>
+          <div class="icon-input">
+            <i class="fa fa-heading"></i>
+            <input type="text" name="title" value="{{ title|default:'' }}" placeholder="e.g. Senior Frontend Developer" required>
+          </div>
+          <span class="floating-label">Job Title</span>
+        </div>
+
+        <div class="form-group">
+          <label class="required">Description</label>
+          <textarea name="description" placeholder="Describe the role, responsibilities, and impact..." required>{{ description|default:'' }}</textarea>
+          <div class="character-count">0/500 characters</div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <span class="floating-label">Job Description</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="required">Location</label>
+            <div class="icon-input">
+              <i class="fa fa-map-marker-alt"></i>
+              <input type="text" name="location" value="{{ location|default:'' }}" placeholder="e.g. Delhi" required>
+            </div>
+            <span class="floating-label">Location</span>
+          </div>
+
+          <div class="form-group">
+            <label class="required">Salary (₹)</label>
+            <div class="icon-input">
+              <i class="fa fa-rupee-sign"></i>
+              <input type="number" name="salary" value="{{ salary|default:'' }}" placeholder="e.g. 75000" min="0" required>
+            </div>
+            <span class="floating-label">Salary</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="required">Job Type</label>
+            <select name="job_type" required>
+              <option value="">Select Job Type</option>
+              <option value="full" {% if job_type == 'full' %}selected{% endif %}>Full-time</option>
+              <option value="part" {% if job_type == 'part' %}selected{% endif %}>Part-time</option>
+              <option value="remote" {% if job_type == 'remote' %}selected{% endif %}>Remote</option>
+              <option value="intern" {% if job_type == 'intern' %}selected{% endif %}>Internship</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="required">Experience Level</label>
+            <select name="experience" required>
+              <option value="">Select Experience</option>
+              <option value="0-1" {% if experience == '0-1' %}selected{% endif %}>0-1 Years</option>
+              <option value="1-3" {% if experience == '1-3' %}selected{% endif %}>1-3 Years</option>
+              <option value="3-5" {% if experience == '3-5' %}selected{% endif %}>3-5 Years</option>
+              <option value="5+" {% if experience == '5+' %}selected{% endif %}>5+ Years</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Requirements</label>
+          <textarea name="requirements" placeholder="List required skills, experience, and qualifications...">{{ requirements|default:'' }}</textarea>
+          <span class="floating-label">Requirements</span>
+        </div>
+
+        <div class="form-group">
+          <label>Application Deadline</label>
+          <div class="icon-input">
+            <i class="fa fa-calendar-alt"></i>
+            <input type="date" name="deadline" value="{{ deadline|default:'' }}">
+          </div>
+          <span class="floating-label">Deadline</span>
+        </div>
+
+        <button type="submit">
+          <i class="fa fa-paper-plane"></i> Post Job
+        </button>
+      </form>
+
+      <div class="form-footer"></div>
+    </div>
+  </div>
+
+  <script>
+    const descriptionTextarea = document.querySelector('textarea[name="description"]');
+    const characterCount = document.querySelector('.character-count');
+    const progressFill = document.querySelector('.progress-fill');
+
+    if (descriptionTextarea) {
+      descriptionTextarea.addEventListener('input', function() {
+        const count = this.value.length;
+        characterCount.textContent = `${count}/500 characters`;
+        const progress = Math.min((count / 500) * 100, 100);
+        progressFill.style.width = `${progress}%`;
+        if (progress > 90) progressFill.style.background = 'var(--error)';
+        else if (progress > 75) progressFill.style.background = 'var(--warning)';
+        else progressFill.style.background = 'var(--primary)';
+      });
+      descriptionTextarea.dispatchEvent(new Event('input'));
+    }
+
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+      const formGroup = input.closest('.form-group');
+      const floatingLabel = formGroup.querySelector('.floating-label');
+      if (floatingLabel) {
+        input.addEventListener('focus', () => floatingLabel.style.opacity = '1');
+        input.addEventListener('blur', () => {
+          if (!input.value) floatingLabel.style.opacity = '0';
+        });
+        if (input.value) floatingLabel.style.opacity = '1';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Campus Recruitment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #2196F3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"], input[type="email"], textarea {
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+        textarea {
+            height: 120px;
+        }
+        button {
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2196F3;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .contact-info {
+            margin-top: 25px;
+            text-align: center;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #2196F3;
+            color: #fff;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Contact Us</h1>
+    </div>
+
+    <div class="container">
+        <h2>Get in Touch</h2>
+        <form method="POST" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="subject" placeholder="Subject" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+            <p>Email: info@campusrecruitment.com</p>
+            <p>Phone: +91 123-456-7890</p>
+            <p>Address: 123 Main Street, City, Country</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Campus Recruitment. All rights reserved.
+    </footer>
+</body>
+</html>

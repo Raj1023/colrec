@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recruiter Registration - Campus Recruitment</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: 
+        linear-gradient(rgba(28, 200, 138, 0.85), rgba(54, 185, 204, 0.85)),
+        url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, #1cc88a, #36b9cc);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h2 {
+      color: #333;
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #444;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .input-icon {
+      position: relative;
+    }
+
+    .input-icon i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem 0.75rem 0.75rem 40px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+
+    .input-icon input:focus,
+    .input-icon select:focus,
+    .input-icon textarea:focus {
+      border-color: #1cc88a;
+      box-shadow: 0 0 0 3px rgba(28, 200, 138, 0.2);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+      padding-left: 15px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #999;
+    }
+
+    .password-strength {
+      height: 5px;
+      margin-top: 5px;
+      border-radius: 3px;
+      background: #eee;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      transition: width 0.3s;
+    }
+
+    .password-strength-weak .password-strength-bar {
+      width: 33%;
+      background: #e74a3b;
+    }
+
+    .password-strength-medium .password-strength-bar {
+      width: 66%;
+      background: #f6c23e;
+    }
+
+    .password-strength-strong .password-strength-bar {
+      width: 100%;
+      background: #1cc88a;
+    }
+
+    .password-strength-text {
+      font-size: 0.75rem;
+      margin-top: 3px;
+      text-align: right;
+      color: #999;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(to right, #1cc88a, #36b9cc);
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #17a673, #2c9faf);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .login-link a {
+      color: #1cc88a;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .terms {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .terms input {
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .terms label {
+      margin-bottom: 0;
+      font-weight: normal;
+    }
+
+    .terms a {
+      color: #1cc88a;
+      text-decoration: none;
+    }
+
+    .terms a:hover {
+      text-decoration: underline;
+    }
+
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #eee;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .step {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step.active {
+      background: #1cc88a;
+      border-color: #1cc88a;
+      color: white;
+    }
+
+    @media screen and (max-width: 500px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .header h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Recruiter Registration</h2>
+      <p>Create your company account to access campus recruitment</p>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="step active">1</div>
+      <div class="step">2</div>
+      <div class="step">3</div>
+    </div>
+
+    <form action="{% url 'company_registration' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="cname">Company Name</label>
+        <div class="input-icon">
+          <i class="fas fa-building"></i>
+          <input type="text" id="cname" name="cname" placeholder="Enter your company name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="hrname">HR/Recruiter Name</label>
+        <div class="input-icon">
+          <i class="fas fa-user"></i>
+          <input type="text" id="hrname" name="hrname" placeholder="Your full name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Official Email</label>
+        <div class="input-icon">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" name="email" placeholder="company@example.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Contact Number</label>
+        <div class="input-icon">
+          <i class="fas fa-phone"></i>
+          <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="10-digit phone number" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="website">Company Website</label>
+        <div class="input-icon">
+          <i class="fas fa-globe"></i>
+          <input type="url" id="website" name="website" placeholder="https://example.com">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="industry">Industry Type</label>
+        <div class="input-icon">
+          <i class="fas fa-industry"></i>
+          <select id="industry" name="industry" required>
+            <option value="">-- Select Industry --</option>
+            <option value="it">Information Technology</option>
+            <option value="finance">Finance & Banking</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="education">Education</option>
+            <option value="consulting">Consulting</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="desc">Company Description</label>
+        <textarea id="desc" name="desc" placeholder="Brief about your company, culture, and values..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Create Password</label>
+        <div class="input-icon">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+          <span class="password-toggle" id="passwordToggle">
+            <i class="far fa-eye"></i>
+          </span>
+        </div>
+        <div class="password-strength">
+          <div class="password-strength-bar"></div>
+        </div>
+        <div class="password-strength-text" id="passwordStrengthText">Password strength</div>
+      </div>
+
+      <div class="terms">
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+      </div>
+
+      <button type="submit" class="btn">
+        <i class="fas fa-building"></i> Register As an Employer
+      </button>
+
+      <div class="login-link">
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Password strength indicator
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.querySelector('.password-strength-bar');
+    const strengthText = document.getElementById('passwordStrengthText');
+    const passwordToggle = document.getElementById('passwordToggle');
+    
+    passwordInput.addEventListener('input', function() {
+      const password = passwordInput.value;
+      let strength = 0;
+      
+      // Check password strength
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      
+      // Update strength indicator
+      const strengthClass = ['password-strength-weak', 'password-strength-medium', 'password-strength-strong'];
+      const strengthMessages = ['Weak', 'Medium', 'Strong'];
+      
+      document.querySelector('.password-strength').className = 'password-strength';
+      
+      if (password.length > 0) {
+        document.querySelector('.password-strength').classList.add(strengthClass[strength - 1]);
+        strengthText.textContent = strengthMessages[strength - 1];
+      } else {
+        strengthText.textContent = 'Password strength';
+      }
+    });
+    
+    // Password visibility toggle
+    passwordToggle.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      
+      // Toggle eye icon
+      const eyeIcon = passwordToggle.querySelector('i');
+      eyeIcon.classList.toggle('fa-eye');
+      eyeIcon.classList.toggle('fa-eye-slash');
+    });
+    
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const password = document.getElementById('password').value;
+      const terms = document.getElementById('terms').checked;
+      
+      if (password.length < 8) {
+        e.preventDefault();
+        alert('Password must be at least 8 characters long');
+        return;
+      }
+      
+      if (!terms) {
+        e.preventDefault();
+        alert('You must agree to the terms and conditions');
+        return;
+      }
+    });
+  </script>
+</body>
+</html>

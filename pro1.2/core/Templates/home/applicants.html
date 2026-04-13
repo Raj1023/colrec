@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applicants - {{ job.position }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4e73df;
+      --primary-dark: #3a5fc8;
+      --secondary: #1cc88a;
+      --secondary-dark: #17a673;
+      --danger: #e74a3b;
+      --danger-dark: #c0392b;
+      --light: #f8f9fc;
+      --gray: #858796;
+      --gray-light: #e3e6f0;
+    }
+    body { font-family: "Segoe UI", sans-serif; background: #f4f6f8; margin: 0; }
+    .navbar { background: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 0.5rem; color: var(--primary); font-weight: 700; font-size: 1.4rem; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { text-decoration: none; color: var(--gray); font-weight: 500; padding: 0.5rem 0.8rem; border-radius: 4px; transition: all 0.3s; }
+    .nav-links a.active, .nav-links a:hover { background: var(--primary); color: white; }
+    .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+    h1 { color: var(--gray); margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    th, td { padding: 0.8rem; text-align: left; border-bottom: 1px solid var(--gray-light); }
+    th { background: var(--light); color: var(--gray); }
+    .status-badge { padding: 0.3rem 0.6rem; border-radius: 50px; font-size: 0.8rem; font-weight: 500; }
+    .status-applied { background: rgba(108,117,125,0.2); color: #6c757d; }
+    .status-screening { background: rgba(255,193,7,0.2); color: #ffc107; }
+    .status-interview { background: rgba(23,162,184,0.2); color: #17a2b8; }
+    .status-offer { background: rgba(40,167,69,0.2); color: #28a745; }
+    .btn { padding: 0.3rem 0.6rem; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; color: white; margin-right: 0.3rem; }
+    .btn-screen { background: #ffc107; color: #fff; }
+    .btn-interview { background: #17a2b8; color: #fff; }
+    .btn-offer { background: #28a745; color: #fff; }
+    .btn-reject { background: #e74a3b; color: #fff; }
+    @media(max-width: 768px) { table, th, td { font-size: 0.9rem; } }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"><i class="fas fa-building"></i> {{ user.first_name }}</div>
+    <div class="nav-links">
+      <a href="{% url 'cdashboard' %}">Dashboard</a>
+      <a href="#" class="active">Applicants</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Applicants for: {{ job.position }}</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Roll Number</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for applicant in applicants %}
+        <tr>
+          <td>{{ applicant.student.first_name }}</td>
+          <td>{{ applicant.student.email }}</td>
+          <td>{{ applicant.student.department }}</td>
+          <td>{{ applicant.student.roll_number }}</td>
+          <td><span class="status-badge status-{{ applicant.status|lower }}">{{ applicant.status }}</span></td>
+          <td>
+            <form method="POST" action="{% url 'update_applicant_status' job.id applicant.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" name="status" value="Screening" class="btn btn-screen">Screen</button>
+              <button type="submit" name="status" value="Interview" class="btn btn-interview">Interview</button>
+              <button type="submit" name="status" value="Offer" class="btn btn-offer">Offer</button>
+              <button type="submit" name="status" value="Rejected" class="btn btn-reject">Reject</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" style="text-align:center;">No applicants yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

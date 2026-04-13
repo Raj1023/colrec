@@ -1,0 +1,374 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ user.first_name }} | Student Dashboard - Reccol</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a73e8;
+      --primary-dark: #155ab6;
+      --primary-light: #e8f0fe;
+      --secondary: #f4f6f8;
+      --text-dark: #202124;
+      --text-light: #5f6368;
+      --white: #ffffff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 8px 24px rgba(0,0,0,0.12);
+      --radius: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background: linear-gradient(135deg, #f4f6f8 0%, #e8ecf1 100%);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+      border-radius: 8px;
+      margin: 0 0.2rem;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background-color: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
+
+    .dashboard-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+
+    .dashboard-header::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      right: 5%;
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .dashboard-header h2 {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-header p {
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .card-title {
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .btn-custom {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+      color: var(--white);
+    }
+
+    .btn-warning {
+      background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+      border: none;
+      border-radius: 10px;
+      font-weight: 500;
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+    }
+
+    .btn-warning:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+    }
+
+    table thead {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+    }
+
+    table thead th {
+      border: none;
+      padding: 1rem;
+      font-weight: 500;
+    }
+
+    .table tbody tr {
+      transition: var(--transition);
+    }
+
+    .table tbody tr:hover {
+      background-color: var(--primary-light);
+      transform: scale(1.01);
+    }
+
+    .table tbody td {
+      padding: 1rem;
+      border-color: #f0f0f0;
+      vertical-align: middle;
+    }
+
+    .list-group-item {
+      border: none;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #f0f0f0;
+      transition: var(--transition);
+    }
+
+    .list-group-item:hover {
+      background-color: var(--primary-light);
+    }
+
+    .list-group-item:last-child {
+      border-bottom: none;
+    }
+
+    .img-thumbnail {
+      border-radius: 12px;
+      border: 2px solid #e0e0e0;
+      transition: var(--transition);
+    }
+
+    .img-thumbnail:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow);
+    }
+
+    .text-muted {
+      color: var(--text-light) !important;
+    }
+
+    /* Loading animation for cards */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .dashboard-header {
+        padding: 1.5rem;
+      }
+      
+      .dashboard-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .table-responsive {
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      
+      .nav-link {
+        margin: 0.2rem 0;
+        text-align: center;
+      }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">Reccol</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="{% url 'student_dashboard' %}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'jobs_list' %}">Browse Jobs</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'edit_student_profile' %}">Profile</a></li>
+          <li class="nav-item">
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-warning btn-sm ms-2">Logout</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Header -->
+  <div class="container mt-4">
+    <div class="dashboard-header">
+      <h2>Welcome, {{ user.first_name }}!</h2>
+      <p class="mb-0">Here's your Reccol dashboard to manage applications and explore jobs.</p>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="card p-3">
+      <h5 class="card-title d-flex justify-content-between align-items-center">
+        Profile Information
+        <a href="{% url 'edit_student_profile' %}" class="btn btn-custom btn-sm">Edit Profile</a>
+      </h5>
+      <p><strong>Roll Number:</strong> {{ user.roll_number }}</p>
+      <p><strong>Department:</strong> {{ user.department }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      {% if user.phone_number %}
+      <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+      {% endif %}
+      {% if user.profile_pic %}
+      <p><img src="{{ user.profile_pic.url }}" alt="Profile Picture" class="img-thumbnail" style="max-width: 120px;"></p>
+      {% endif %}
+    </div>
+
+    <!-- Notifications -->
+    <div class="card p-3">
+      <h5 class="card-title">Notifications</h5>
+      <ul class="list-group list-group-flush">
+        {% for note in notifications %}
+          <li class="list-group-item">{{ note.message }}</li>
+        {% empty %}
+          <li class="list-group-item text-muted">No new notifications</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Available Jobs -->
+    <div class="card p-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="card-title mb-0">Available Jobs</h5>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Position</th>
+              <th>Deadline</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% comment %} {% for job in jobs %} {% endcomment %}
+            <tr>
+              <td>{{ job.company }}</td>
+              <td>{{ job.title }}</td>
+              <td>{{ job.deadline|date:"d M Y" }}</td>
+              <td>
+                {% comment %} <form action="{% url 'apply_job' job.id %}" method="post"> {% endcomment %}
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-custom btn-sm">Apply</button>
+                </form>
+              </td>
+            </tr>
+            {% comment %} {% empty %} {% endcomment %}
+            <tr>
+              <td colspan="4" class="text-center text-muted">No jobs available at the moment.</td>
+            </tr>
+            {% comment %} {% endfor %} {% endcomment %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
